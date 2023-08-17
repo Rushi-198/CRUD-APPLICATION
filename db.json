@@ -1,0 +1,28 @@
+{
+  "posts": [
+    {
+      "title": "fh",
+      "author": "dth",
+      "id": 2
+    },
+    {
+      "title": "tyh",
+      "author": "rty",
+      "id": 3
+    },
+    {
+      "title": "rdt",
+      "author": "ery",
+      "id": 4
+    },
+    {
+      "title": "rrrrrrt",
+      "author": "rttttttttttttttt",
+      "id": 5
+    }
+  ],
+  "comments": [],
+  "profile": {
+    "name": "typicode"
+  }
+}
