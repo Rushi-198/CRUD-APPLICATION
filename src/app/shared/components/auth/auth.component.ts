@@ -11,6 +11,7 @@ export class AuthComponent implements OnInit {
 
 
   alreadyHaveAc: boolean = false
+  hide: boolean = false
   constructor(
     private _route: ActivatedRoute
   ) { }
