@@ -3,54 +3,53 @@
 </header>
 
 <div class="container mt-5">
-    <div class="row">
-      <div class="col-6">
-        <h2 *ngIf="updateButton">Create Post</h2>
-        <h2 *ngIf="!updateButton">Update Post</h2>
-        <div class="card">
-          <div class="card-body">
-            <form class="form" [formGroup]="patchForm"  (ngSubmit)="onpostformsubmit()">
-              <div class="form-group">
-                <label for="">posttitle</label>
-                <input type="text" class="form-control" formControlName="title">         
-              </div>
-              <div class="form-group">
-                <label for="">postauthor</label>
-                <input type="text" class="form-control" formControlName="author">
-              </div>
-              <button class="btn btn-primary float-right" *ngIf="updateButton">Submit</button>
-              <button type="button"    class="btn btn-warning float-right" *ngIf="!updateButton" (click)="Onupdate()">Update</button>
-            </form>
-          </div>
+  <div class="row">
+    <div class="col-6">
+      <h2 *ngIf="updateButton">Create Post</h2>
+      <h2 *ngIf="!updateButton">Update Post</h2>
+      <div class="card">
+        <div class="card-body">
+          <form class="form" [formGroup]="patchForm" (ngSubmit)="onpostformsubmit()">
+            <div class="form-group">
+              <label for="">posttitle</label>
+              <input type="text" class="form-control" formControlName="title">
+            </div>
+            <div class="form-group">
+              <label for="">postauthor</label>
+              <input type="text" class="form-control" formControlName="author">
+            </div>
+            <button class="btn btn-primary float-right" *ngIf="updateButton">Submit</button>
+            <button type="button" class="btn btn-warning float-right" *ngIf="!updateButton"
+              (click)="Onupdate()">Update</button>
+          </form>
         </div>
-     
       </div>
-      <div class="col-6">
-        <!-- <ul>
+
+    </div>
+    <div class="col-6">
+      <!-- <ul>
             <li *ngFor="let patch of arr">
              {{patch.title}}
              <button class="btn btn-primary" (click)="Onedit(patch.id)">Edit</button>
             </li>
         </ul> -->
 
-        <h2>All Posts</h2>
-        <div class="card mb-2 " *ngFor="let patch of arr">
-            <div class="card-header">
-                {{patch.title}} 
-            </div>
-            <div class="card-body">
-                {{patch.author}}
+      <h2>All Posts</h2>
+      <div class="card mb-2 " *ngFor="let patch of arr">
+        <div class="card-header">
+          {{patch.title}}
+        </div>
+        <div class="card-body">
+          {{patch.author}}
 
-            </div>
-            <div class="card-footer d-flex justify-content-between">
-              <button class="btn btn-primary" (click)="Onedit(patch.id)">Edit</button>
-              <button class="btn btn-danger" (click)="Ondelete(patch.id)">Delete</button>
-              
-            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <button class="btn btn-primary
+              " (click)="Onedit(patch.id)">Edit</button>
+          <button class="btn btn-danger" (click)="Ondelete(patch.id)">Delete</button>
+
         </div>
       </div>
     </div>
   </div>
-
-
-  
+</div>

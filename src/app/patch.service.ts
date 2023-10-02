@@ -7,9 +7,9 @@ import { Ipatch } from './model/patch';
 @Injectable({
   providedIn: 'root'
 })
-export class PatchService implements OnInit{
+export class PatchService implements OnInit {
 
-  constructor(private _httpclient : HttpClient) { }
+  constructor(private _httpclient: HttpClient) { }
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');
@@ -21,41 +21,42 @@ export class PatchService implements OnInit{
   //   return this._httpclient.get<Ipatch[]>(environment.baseUrl)
   // }
 
- 
-// fdirebase
-  getAllpost() : Observable<Ipatch[]>{
-    return this._httpclient.get<Ipatch[]>(environment.FirbaseDB+"post.json")
-    .pipe(
-      map(res => {
-        let arr = []
 
-        for(let key in res){
-          // console.log(key);
-          let obj:Ipatch={
-            title: res[key].title,
-            author: res[key].author,
-            id: key
+  // firebase
+  getAllpost(): Observable<Ipatch[]> {
+    return this._httpclient.get<Ipatch[]>(environment.FirbaseDB + "post.json")
+      .pipe(
+        map(res => {
+          let arr = []
+
+          for (let key in res) {
+            // console.log(key);
+            let obj: Ipatch = {
+              // title: res[ key ].title,
+              // author: res[ key ].author,
+              ...res[ key ],
+              id: key
+            }
+
+            arr.unshift(obj)
           }
-
-          arr.unshift(obj)
-        }
-        return arr
-      })
-     )
+          return arr
+        })
+      )
   }
 
 
 
- getsinglepost(id : string) : Observable<Ipatch> {
-  let postUrl = `${environment.FirbaseDB}post/${id}/.json`
-  return this._httpclient.get<Ipatch>(postUrl) 
- }
- 
+  getsinglepost(id: string): Observable<Ipatch> {
+    let postUrl = `${environment.FirbaseDB}post/${id}/.json`
+    return this._httpclient.get<Ipatch>(postUrl)
+  }
 
 
-  patchpost(id:string ,obj : Ipatch) : Observable<Ipatch> {
-  let postUrl = `${environment.FirbaseDB}post/${id}/.json`
-    return this._httpclient.patch<Ipatch>(postUrl,obj)
+
+  patchpost(id: string, obj: Ipatch): Observable<Ipatch> {
+    let postUrl = `${environment.FirbaseDB}post/${id}/.json`
+    return this._httpclient.patch<Ipatch>(postUrl, obj)
   }
 
 
@@ -64,13 +65,13 @@ export class PatchService implements OnInit{
   // }
 
   // firebase 
-  createPost(obj : Ipatch): Observable<any>{
-    return this._httpclient.post<any>(environment.FirbaseDB+"post.json", obj)
+  createPost(obj: Ipatch): Observable<any> {
+    return this._httpclient.post<any>(environment.FirbaseDB + "post.json", obj)
   }
 
 
-  deletePost(id : string) : Observable<any> {
-  let postUrl = `${environment.FirbaseDB}post/${id}/.json`
+  deletePost(id: string): Observable<any> {
+    let postUrl = `${environment.FirbaseDB}post/${id}/.json`
 
     return this._httpclient.delete<any>(postUrl)
   }

@@ -8,24 +8,24 @@ import { map, retry } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: [ './app.component.scss' ]
 })
-export class AppComponent implements OnInit{
- 
+export class AppComponent implements OnInit {
+
   title = 'practice1';
 
-  
+
   constructor(
-    private _patchservice : PatchService,
+    private _patchservice: PatchService,
     private _snackbarservice: SnackbarService
-    ){}
+  ) { }
 
 
-  patchForm! : FormGroup
+  patchForm!: FormGroup
 
   arr !: Ipatch[]
 
-  updateButton : boolean = true
+  updateButton: boolean = true
 
   patchid !: string;
 
@@ -36,119 +36,128 @@ export class AppComponent implements OnInit{
   ngOnInit(): void {
 
     this.patchForm = new FormGroup({
-       title : new FormControl(null , Validators.required),
-      author : new FormControl(null , Validators.required)
+      title: new FormControl(null, Validators.required),
+      author: new FormControl(null, Validators.required)
     })
 
-      this._patchservice.getAllpost() 
+    this.getAllposts()
+
+  }
+
+  getAllposts() {
+    this._patchservice.getAllpost()
       .subscribe(res => {
         console.log(res)
         this.arr = res
         // console.log(this.arr)
       })
-
   }
 
-
-
-  Onedit(id : string){
+  Onedit(id: string) {
     console.log(id)
-      this.updateButton = false
+    this.updateButton = false
 
     this._patchservice.getsinglepost(id)
-    .subscribe ( res => {
-      console.log(res)
+      .subscribe(res => {
+        console.log(res)
 
-      this.patchForm.patchValue(res)
+        this.patchForm.patchValue(res)
 
-      this.patchid = id
-    })
+        this.patchid = id
+      })
   }
 
-   
-  onpostformsubmit(){
-    if(this.patchForm.valid){
+
+  onpostformsubmit() {
+    if (this.patchForm.valid) {
       this._patchservice.createPost(this.patchForm.value)
-      .subscribe(res => {
-        console.log(res['name'], 'id get')
-        // this.arr.unshift(res)
-        let obj ={
-          ...this.patchForm.value,
-          id: res['name']
-        }
-        this.arr.unshift(obj)
-        console.log(this.patchForm.value)
-        this.patchForm.reset()
-    this._snackbarservice.openSnackbar('post submited successfully....!!!')
-      })
-    }else{
+        .subscribe(res => {
+          // console.log(res[ 'name' ], 'id get')
+          // this.arr.unshift(res)
+          // let obj = {
+          //   ...this.patchForm.value,
+          //   id: res[ 'name' ]
+          // }
+          // this.arr.unshift(obj)
+          this.getAllposts()
+          console.log(res)
+          // this.patchForm.reset()
+          this._snackbarservice.openSnackbar('post submited successfully....!!!')
+        })
+    } else {
       this._snackbarservice.openSnackbar('please type something....!!!')
-     }
+    }
 
     // console.log(this.patchForm.get('title')?.value);
     // console.log(this.patchForm.controls['author'].value);
     //console.log(this.patchForm.get('title')?.value)
   }
 
-  
 
 
 
- 
-  Onupdate(){
-    if(this.patchForm.valid){
+
+
+  Onupdate() {
+    if (this.patchForm.valid) {
       this._patchservice.patchpost(this.patchid, this.patchForm.value)
-      .subscribe (res => {
-       console.log(res)
+        .subscribe(res => {
+          console.log(res)
+          this.getAllposts()
+          this.patchForm.reset()
+          // this._patchservice.getAllpost()
+          //   .subscribe(res => {
+          //     this.arr = res
+          //     t
 
-        this._patchservice.getAllpost()
-          .subscribe(res => {
-            this.arr = res
-            this.patchForm.reset()
-          })
-     this._snackbarservice.openSnackbar('post updated successfully....!!!')
+          //   })
+          this._snackbarservice.openSnackbar('post updated successfully....!!!')
 
-    //  this.arr.forEach(e => {
-    //    if (e.id ===this.patchid) {
-    //      e.title = this.patchForm.controls['title'].value,
-    //      e.author = this.patchForm.controls['author'].value
-    //    this.patchForm.reset()
-    //    }
-    //  })
-      })
-    }else{
-     this._snackbarservice.openSnackbar('please type something....!!!')
+          //  this.arr.forEach(e => {
+          //    if (e.id ===this.patchid) {
+          //      e.title = this.patchForm.controls['title'].value,
+          //      e.author = this.patchForm.controls['author'].value
+          //    this.patchForm.reset()
+          //    }
+          //  })
+        })
+    } else {
+      this._snackbarservice.openSnackbar('please type something....!!!')
     }
-   
+
   }
 
 
 
 
-  Ondelete(id : string){
-    
+  Ondelete(id: string) {
+
     this._patchservice.deletePost(id)
-    .subscribe(res => {
-      console.log(res),
-      this._snackbarservice.openSnackbar('post deleted successfully....!!!')
-      console.log(id)
-   
-      
-      // this.arr.forEach((e,i) => {
-      //   if (e.id === id) {
-      //     console.log(e);
-      //     this.arr.splice(i,1)
+      .subscribe(res => {
+        console.log(res),
+          this._snackbarservice.openSnackbar('post deleted successfully....!!!')
+        console.log(id)
+        this.getAllposts()
 
-      //   }
-      // })
 
-      let find = this.arr.findIndex(e => e.id === id)
-      this.arr.splice(find,1)
-    })
+        // this.arr.forEach((e,i) => {
+        //   if (e.id === id) {
+        //     console.log(e);
+        //     this.arr.splice(i,1)
+
+        //   }
+        // })
+
+        // let find = this.arr.findIndex(e => e.id === id)
+        // this.arr.splice(find, 1)
+
+        // this.arr = this.arr.filter(e => e.id !== id)
+      })
   }
-
-
-
-
 
 }
+
+
+
+// patch madhe two method = editofsingle id and after that update so = ID lagel
+// Delete = delte la pn = ID lagta
