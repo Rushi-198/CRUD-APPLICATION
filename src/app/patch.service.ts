@@ -1,15 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { Ipatch } from './model/patch';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatchService implements OnInit {
 
-  constructor(private _httpclient: HttpClient) { }
+
+  loginstatus: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(false)
+
+
+  constructor(private _httpclient: HttpClient,
+  ) { }
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');
@@ -75,5 +82,7 @@ export class PatchService implements OnInit {
 
     return this._httpclient.delete<any>(postUrl)
   }
+
+
 
 }
